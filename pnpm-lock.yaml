@@ -5,15 +5,24 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@headlessui/react':
+    specifier: ^1.7.17
+    version: 1.7.17(react-dom@18.2.0)(react@18.2.0)
   '@vitejs/plugin-react-swc':
     specifier: ^3.5.0
     version: 3.5.0(vite@5.0.0)
+  lucide-react:
+    specifier: ^0.293.0
+    version: 0.293.0(react@18.2.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-router-dom:
+    specifier: ^6.20.0
+    version: 6.20.0(react-dom@18.2.0)(react@18.2.0)
 
 devDependencies:
   '@types/react':
@@ -287,6 +296,18 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@headlessui/react@1.7.17(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-4am+tzvkqDSSgiwrsEpGWqgGo9dz8qU5M3znCkC4PgkpY4HcCZzEDEvozltGGGHIKl9jbXbZPSH5TWn4sWJdow==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -357,6 +378,11 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
+
+  /@remix-run/router@1.13.0:
+    resolution: {integrity: sha512-5dMOnVnefRsl4uRnAdoWjtVTdh8e6aZqgM4puy9nmEADH72ck+uXwzpJLEKE9Q6F8ZljNewLgmTfkxUrBdv4WA==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /@rollup/rollup-android-arm-eabi@4.5.2:
     resolution: {integrity: sha512-ee7BudTwwrglFYSc3UnqInDDjCLWHKrFmGNi4aK7jlEyg4CyPa1DCMrZfsN1O13YT76UFEqXz2CoN7BCGpUlJw==}
@@ -877,6 +903,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
 
   /color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1411,6 +1441,14 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lucide-react@0.293.0(react@18.2.0):
+    resolution: {integrity: sha512-g3AN0EYITCpAjNgLHrKrFWvIJzZy0Y9OPBaonyKw1cM+nZE6piOM+TiuQdYfha7oa76TMiDaWXQHE44CEqsrzw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -1726,6 +1764,29 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-router-dom@6.20.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-CbcKjEyiSVpA6UtCHOIYLUYn/UJfwzp55va4yEfpk7JBN3GPqWfHrdLkAvNCcpXr8QoihcDMuk0dzWZxtlB/mQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.13.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.20.0(react@18.2.0)
+    dev: false
+
+  /react-router@6.20.0(react@18.2.0):
+    resolution: {integrity: sha512-pVvzsSsgUxxtuNfTHC4IxjATs10UaAtvLGVSA1tbUE4GDaOSU1Esu2xF5nWLz7KPiMuW8BJWuPFdlGYJ7/rW0w==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.13.0
+      react: 18.2.0
     dev: false
 
   /react@18.2.0:
