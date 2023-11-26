@@ -54,8 +54,3 @@ export const useChats = function () {
   const [state] = useChatRoomContext();
   return state.chats;
 };
-
-export const useChatRoom = function () {
-  const [state] = useChatRoomContext();
-  return;
-};
