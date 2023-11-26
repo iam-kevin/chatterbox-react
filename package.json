@@ -11,14 +11,20 @@
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.7.17",
+		"@tailwindcss/forms": "^0.5.7",
 		"@vitejs/plugin-react-swc": "^3.5.0",
+		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.0.0",
 		"lucide-react": "^0.293.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.20.0",
-		"sonner": "^1.2.3"
+		"sonner": "^1.2.3",
+		"tailwind-merge": "^2.0.0",
+		"tailwindcss-animate": "^1.0.7"
 	},
 	"devDependencies": {
+		"@types/node": "^20.10.0",
 		"@types/react": "^18.2.37",
 		"@types/react-dom": "^18.2.15",
 		"@typescript-eslint/eslint-plugin": "^6.10.0",
