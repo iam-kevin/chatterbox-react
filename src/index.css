@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  @apply transition-colors duration-75;
+  outline: none;
+}
