@@ -2,6 +2,7 @@ import { ChatRoomProvider, useChats } from '@/context/chatroom';
 import { ChatLayout } from '@/ui/layout/chat';
 import { cn } from '@/ui/style-utils';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 const ChatRoomList = function (props: { className: string }) {
   const chats = useChats();
@@ -16,8 +17,8 @@ const ChatRoomList = function (props: { className: string }) {
     <div className={cn(props.className)} ref={ref}>
       <div className="flex h-full flex-col px-3 py-2">
         <div className="flex-1" />
-        {chats.map((c) => (
-          <div className="flex flex-row gap-2">
+        {chats.map((c, ix) => (
+          <div key={ix} className="flex flex-row gap-2">
             <label className="whitespace-nowrap font-medium text-purple-900">{c.username}:</label>
             <p>{c.text}</p>
           </div>
@@ -28,10 +29,17 @@ const ChatRoomList = function (props: { className: string }) {
 };
 
 export default function ChatRoomPage() {
+  const roomId = useParams()['rid'];
+
+  if (!roomId) {
+    return <>Missing room information to load</>;
+  }
+
   return (
     <ChatRoomProvider
       data={{
         name: 'kevin-james',
+        id: roomId,
       }}
     >
       <ChatLayout className="flex h-full flex-row drop-shadow">

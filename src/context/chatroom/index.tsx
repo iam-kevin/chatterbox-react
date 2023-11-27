@@ -3,15 +3,18 @@ import React from 'react';
 import { CHATS_DATA } from './mock-data';
 
 export type ChatRoomState = {
+  id: string;
   name: string;
   members: { username: string; name: string }[];
   chats: { text: string; username: string; timestamp: number }[];
 };
 
 type Options = {
+  id: string;
   name: string;
 };
 const createInitialChatRoom = (opts: Options): ChatRoomState => ({
+  id: opts.id,
   name: opts.name,
   members: [],
   chats: CHATS_DATA,
