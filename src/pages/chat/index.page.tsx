@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { InitializeDemoState } from './demo.helpers';
 
+import { useSessionInitialization } from '@/lib/app/session';
 import { AlertTriangleIcon } from 'lucide-react';
 
 const ChatRoomList = function (props: { className?: string }) {
   const rooms = useRooms();
+  useSessionInitialization();
 
   return (
     <div className={cn(props.className)}>

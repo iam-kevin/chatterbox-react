@@ -1,4 +1,5 @@
 import { ChatRoomProvider, useChats } from '@/context/chatroom';
+import { useSessionInitialization } from '@/lib/app/session';
 import { ChatLayout } from '@/ui/layout/chat';
 import { cn } from '@/ui/style-utils';
 import React from 'react';
@@ -10,7 +11,7 @@ const ChatRoomList = function (props: { className: string }) {
 
   React.useEffect(() => {
     if (!ref.current) return;
-    ref.current.scrollTop = ref.current.scrollHeight;
+    ref.current.scrollTop = ref.current.scrollHeight + 10;
   }, []);
 
   return (
@@ -30,6 +31,7 @@ const ChatRoomList = function (props: { className: string }) {
 
 export default function ChatRoomPage() {
   const roomId = useParams()['rid'];
+  useSessionInitialization();
 
   if (!roomId) {
     return <>Missing room information to load</>;
