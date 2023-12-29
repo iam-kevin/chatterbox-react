@@ -77,7 +77,7 @@ export const useRooms = function () {
   return state.rooms;
 };
 
-export const useDispatcher = function () {
+export const useRoomDispatcher = function () {
   const [, dispatch] = useChatterboxContext();
   return dispatch;
 };

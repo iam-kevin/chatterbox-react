@@ -14,14 +14,22 @@ export function useSessionInitialization() {
     const cookies = new Cookies();
     const user = cookies.get(USER_ID);
 
-    console.log({ user });
-    // if (!user) {
-    //   navigate('/welcome', { replace: true });
-    //   // window location
-    // }
+    // console.log({ user });
+    if (!user) {
+      navigate('/welcome', { replace: true });
+      // window location
+    }
   }, [navigate]);
+}
 
-  return;
+export function useSessionUser() {
+  const user = React.useMemo(() => {
+    const cookies = new Cookies();
+    const user = cookies.get(USER_ID);
+    return user;
+  }, []);
+
+  return user as { name: string; nickname: string };
 }
 
 const SessionContext = React.createContext<null>(null);

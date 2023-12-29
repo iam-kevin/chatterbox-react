@@ -13,7 +13,13 @@ import { AlertTriangleIcon } from 'lucide-react';
 
 const ChatRoomList = function (props: { className?: string }) {
   const rooms = useRooms();
-  useSessionInitialization();
+  const navigate = useNavigate();
+  const goToRoom = React.useCallback(
+    (rid: string) => () => {
+      navigate('/room/' + rid);
+    },
+    []
+  );
 
   return (
     <div className={cn(props.className)}>
@@ -24,8 +30,15 @@ const ChatRoomList = function (props: { className?: string }) {
       ) : (
         <div className="flex h-full flex-col gap-1 py-2">
           {rooms.map((r, ix) => (
-            <div key={ix} className="flex flex-row gap-2">
-              <label className="whitespace-nowrap font-medium text-orange-300">#{r.id}</label>
+            <div
+              key={ix}
+              onClick={goToRoom(r.id)}
+              className={cn(
+                'flex flex-row gap-2',
+                'cursor-pointer rounded-md px-1.5 py-0.5 hover:bg-slate-500/20'
+              )}
+            >
+              {/* <label className="whitespace-nowrap font-medium text-orange-300">#{ix}</label> */}
               <label className="whitespace-nowrap font-medium text-purple-900">{r.name}</label>
               {/* created by */}
               <div className="inline-flex flex-row items-center justify-center gap-1 rounded-full border px-2.5 py-0.5">
@@ -57,6 +70,8 @@ const chatTextInpuSchema = z
 export default function MainPage() {
   const [text, set] = React.useState('');
   const [err, setErr] = React.useState<string | null>('');
+
+  useSessionInitialization();
 
   const navigate = useNavigate();
   const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(

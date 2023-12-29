@@ -1,12 +1,14 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react';
-import { CHATS_DATA } from './mock-data';
 
+import { produce } from 'immer';
+
+type ChatMessage = { text: string; username: string; timestamp: number };
 export type ChatRoomState = {
   id: string;
   name: string;
   members: { username: string; name: string }[];
-  chats: { text: string; username: string; timestamp: number }[];
+  chats: ChatMessage[];
 };
 
 type Options = {
@@ -17,7 +19,8 @@ const createInitialChatRoom = (opts: Options): ChatRoomState => ({
   id: opts.id,
   name: opts.name,
   members: [],
-  chats: CHATS_DATA,
+  // chats: CHATS_DATA,
+  chats: [],
 });
 
 const ChatRoomContext = React.createContext<[ChatRoomState, React.Dispatch<ChatRoomAction>] | null>(
@@ -33,17 +36,32 @@ export const ChatRoomProvider = function (props: { data: Options; children: Reac
  * Reducer
  * --------------------------------------
  */
-export type ChatRoomAction = { type: 'send-message'; payload: { text: string } };
+export type ChatRoomAction =
+  | { type: 'write-message'; payload: ChatMessage }
+  | { type: 'set-messages'; payload: ChatMessage[] };
+
 export const chatReducer: React.Reducer<ChatRoomState, ChatRoomAction> = function (prev, action) {
   switch (action.type) {
-    case 'send-message': {
-      return prev;
+    case 'write-message': {
+      return produce(prev, (df) => {
+        df.chats.push(action.payload);
+      });
     }
+    case 'set-messages': {
+      return produce(prev, (df) => {
+        df.chats = action.payload;
+      });
+    }
+    default:
+      return prev;
   }
-
-  return prev;
 };
 
+/*
+ * --------------------------------------
+ * Hooks
+ * --------------------------------------
+ */
 export const useChatRoomContext = function () {
   const ctx = React.useContext(ChatRoomContext);
   if (ctx === null) {

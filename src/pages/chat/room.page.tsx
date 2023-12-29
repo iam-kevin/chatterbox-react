@@ -1,9 +1,12 @@
-import { ChatRoomProvider, useChats } from '@/context/chatroom';
-import { useSessionInitialization } from '@/lib/app/session';
+import { ChatRoomProvider, useChatRoomContext, useChats } from '@/context/chatroom';
+import { useSessionInitialization, useSessionUser } from '@/lib/app/session';
 import { ChatLayout } from '@/ui/layout/chat';
 import { cn } from '@/ui/style-utils';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { ChatRoomTextArea } from './components/chat-area';
+import { useChatWebSocket } from './components/websocket';
+import { TIncomingServerMessage } from './data';
 
 const ChatRoomList = function (props: { className: string }) {
   const chats = useChats();
@@ -29,9 +32,43 @@ const ChatRoomList = function (props: { className: string }) {
   );
 };
 
+function ChatRoomMessageSink({ roomId, ws }: { roomId: string; ws: WebSocket | undefined }) {
+  const [_, fn] = useChatRoomContext();
+  React.useEffect(() => {
+    if (!ws) return;
+
+    ws.onmessage = function (ev) {
+      ev.data
+        .text()
+        .then((text: string) => JSON.parse(text))
+        .then((msg: TIncomingServerMessage) => {
+          // sending for all message types
+          if (roomId === msg.rid) {
+            fn({
+              type: 'write-message',
+              payload: {
+                text: msg.message,
+                timestamp: new Date(msg.timestamp).getTime(),
+                username: msg.uid,
+              },
+            });
+          }
+        });
+    };
+
+    return () => {
+      ws.removeEventListener('message', () => {});
+    };
+  }, [ws, roomId, fn]);
+
+  return null;
+}
+
 export default function ChatRoomPage() {
   const roomId = useParams()['rid'];
   useSessionInitialization();
+  const ws = useChatWebSocket();
+  const user = useSessionUser();
 
   if (!roomId) {
     return <>Missing room information to load</>;
@@ -40,50 +77,16 @@ export default function ChatRoomPage() {
   return (
     <ChatRoomProvider
       data={{
-        name: 'kevin-james',
+        name: 'The Boys',
         id: roomId,
       }}
     >
+      <ChatRoomMessageSink roomId={roomId} ws={ws} />
       <ChatLayout className="flex h-full flex-row drop-shadow">
         <ChatLayout.Main className="relative flex flex-1 flex-col rounded-l-md bg-white">
           <ChatRoomList className="flex-1 overflow-y-auto" />
           {/* chatarea */}
-          <div className="flex items-start border-t pt-3">
-            <div className="flex-shrink-0 px-4">
-              <img
-                className="inline-block h-10 w-10 rounded-full"
-                src="https://avatar.vercel.sh/1"
-                alt=""
-              />
-            </div>
-            <div className="min-w-0 flex-1">
-              <form action="#">
-                <div className="border-b border-gray-200 focus-within:border-indigo-600">
-                  <textarea
-                    rows={3}
-                    name="comment"
-                    id="comment"
-                    className="block w-full resize-none border-0 border-b border-transparent p-0 pb-2 text-gray-900 placeholder:text-gray-400 focus:border-indigo-600 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Add your comment..."
-                    defaultValue={''}
-                  />
-                </div>
-                <div className="flex justify-between py-2 pr-2">
-                  <div className="flex items-center space-x-5">
-                    <label className="text-sm text-gray-600">Message</label>
-                  </div>
-                  <div className="flex-shrink-0">
-                    <button
-                      type="submit"
-                      className="inline-flex items-center rounded-full bg-slate-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
-                    >
-                      Send Message
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          <ChatRoomTextArea roomId={roomId} uid={user.nickname} ws={ws} />
         </ChatLayout.Main>
         <ChatLayout.Aside className="w-1/3 flex-col divide-y divide-orange-500 rounded-r-md bg-orange-200 md:flex">
           <div className="flex-1 px-3 py-4">
