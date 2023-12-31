@@ -49,7 +49,7 @@ export default function WelcomePage() {
       return;
     }
     const searchParams = new URLSearchParams({ username: form.getValues('nickname') });
-    const url = new URL('/user?' + searchParams.toString(), 'http://localhost:8080');
+    const url = new URL('/user?' + searchParams.toString(), import.meta.env.VITE_APP_URL);
     // ...
     const res = await fetch(url.toString(), {
       method: 'GET',
@@ -95,7 +95,7 @@ export default function WelcomePage() {
 
   const [sv, onSignUp] = useAsyncFn(
     form.handleSubmit(async (vals) => {
-      const res = await fetch('http://localhost:8080/set-user', {
+      const res = await fetch(`${import.meta.env.VITE_APP_URL}/set-user`, {
         body: {
           name: vals.name,
           nickname: vals.nickname,

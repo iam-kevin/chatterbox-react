@@ -32,7 +32,7 @@ export function InitializeDemoState() {
   // }, [fn]);
   const dispatch = useRoomDispatcher();
   React.useEffect(() => {
-    const sse = new EventSource('http://localhost:8080/events?stream=rooms', {
+    const sse = new EventSource(`${import.meta.env.VITE_APP_URL}/events?stream=rooms`, {
       withCredentials: false,
     });
 

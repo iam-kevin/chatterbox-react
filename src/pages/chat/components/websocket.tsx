@@ -1,6 +1,6 @@
 import React from 'react';
 
-const createWs = () => new WebSocket('ws://localhost:8080/chat', []);
+const createWs = () => new WebSocket(`${import.meta.env.VITE_APP_WS_URL}/chat`, []);
 const init = createWs();
 
 export function useChatWebSocket() {
